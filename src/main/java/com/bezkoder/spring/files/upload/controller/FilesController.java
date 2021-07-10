@@ -34,18 +34,15 @@ public class FilesController {
     @Autowired
     private ProductRepository productRepository;
 
-    @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
-        try {
-            storageService.store(file);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        }   catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-        }
-    }
+   @PostMapping("/upload")
+   public Item uploadFile(@RequestParam("file") MultipartFile file) {
+     try {
+         return storageService.store(file);
+     } catch (Exception e) {
+         System.out.println(e);
+      return null;
+     }
+   }
 
    @GetMapping("/files")
    public ResponseEntity<List<ResponseFile>> getListFiles() {
