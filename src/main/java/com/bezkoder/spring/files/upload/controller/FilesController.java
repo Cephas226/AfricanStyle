@@ -1,5 +1,6 @@
 package com.bezkoder.spring.files.upload.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,11 +72,9 @@ public class FilesController {
     private ProductRepository productRepository;
 
    @PostMapping("/upload")
-   public Item  uploadFile(@RequestParam("file") MultipartFile file) {
+   public Item uploadFile(@RequestParam("file") MultipartFile file) {
      String message = "";
      try {
-         message = "Uploaded the file successfully: " + file.getOriginalFilename();
-
          return storageService.store(file);
 /*
        Item mP=new Item();
@@ -87,7 +87,6 @@ public class FilesController {
 
       // return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
      } catch (Exception e) {
-       message = "Could not upload the file: " + file.getOriginalFilename() + "!";
       return null;
        // return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
      }
@@ -127,4 +126,38 @@ public class FilesController {
              .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + item.getName() + "\"")
              .body(item.getData());
    }
+
+
+    @PostMapping("/uploadx")
+    public String uploadMultipartFile(@RequestParam("files") MultipartFile[] files, Model model) {
+        List fileNames = new ArrayList();
+
+        try {
+            List storedFile = new ArrayList();
+
+            for(MultipartFile file: files) {
+                Item fileModel = itemRepository.findByName(file.getOriginalFilename());
+                if(fileModel != null) {
+                    // update new contents
+                    fileModel.setData(file.getBytes());
+                }else {
+                    fileModel = new Item(file.getOriginalFilename(), file.getContentType(), file.getBytes());
+                }
+
+                fileNames.add(file.getOriginalFilename());
+                storedFile.add(fileModel);
+            }
+
+            // Save all Files to database
+            itemRepository.saveAll(storedFile);
+
+            model.addAttribute("message", "Files uploaded successfully!");
+            model.addAttribute("files", fileNames);
+        } catch (Exception e) {
+            model.addAttribute("message", "Fail!");
+            model.addAttribute("files", fileNames);
+        }
+
+        return "uploadform";
+    }
 }
