@@ -9,16 +9,13 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long productId;
   private String categorie;
-  private String url;
   private Long note;
   private Long vues;
   @Lob
   private byte[] data;
 
-  public Product(Long productId, String categorie, String url, Long note, Long vues, byte[] data) {
-    this.productId = productId;
+  public Product( String categorie, Long note, Long vues, byte[] data) {
     this.categorie = categorie;
-    this.url = url;
     this.note = note;
     this.vues = vues;
     this.data = data;
