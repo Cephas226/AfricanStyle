@@ -9,16 +9,16 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long productId;
   private String categorie;
-  private String url;
   private Long note;
   private Long vues;
+  @Lob
+  private byte[] data;
 
-
-  public Product( String categorie, Long note, Long vues,String url) {
+  public Product( String categorie, Long note, Long vues, byte[] data) {
     this.categorie = categorie;
     this.note = note;
     this.vues = vues;
-    this.url=url;
+    this.data = data;
   }
 
   public Product() {
@@ -56,12 +56,12 @@ public class Product {
     this.categorie = categorie;
   }
 
-  public String getUrl() {
-    return url;
+  public byte[] getData() {
+    return data;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
+  public void setData(byte[] data) {
+    this.data = data;
   }
 
   @Override
@@ -70,7 +70,8 @@ public class Product {
             "productId=" + productId +
             ", categorie='" + categorie + '\'' +
             ", note=" + note +
-            ", vues=" + vues + +
+            ", vues=" + vues +
+            ", data=" + Arrays.toString(data) +
             '}';
   }
 }
