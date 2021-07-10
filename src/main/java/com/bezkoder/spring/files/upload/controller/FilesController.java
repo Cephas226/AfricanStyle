@@ -80,7 +80,7 @@ public class FilesController {
    }
 
 
-    @PostMapping("/uploadx")
+/*    @PostMapping("/uploadx")
     public String uploadMultipartFile(@RequestParam("files") MultipartFile[] files, Model model) {
         List fileNames = new ArrayList();
 
@@ -111,5 +111,5 @@ public class FilesController {
         }
 
         return "uploadform";
-    }
+    }*/
 }
