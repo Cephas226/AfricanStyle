@@ -14,14 +14,24 @@ public class Product {
   private Long vues;
   @Lob
   private byte[] data;
+  private Boolean isFavorite=false;
 
-  public Product(Long productId, String categorie, String url, Long note, Long vues, byte[] data) {
+  public Product(Long productId, String categorie, String url, Long note, Long vues, byte[] data, Boolean isFavorite) {
     this.productId = productId;
     this.categorie = categorie;
     this.url = url;
     this.note = note;
     this.vues = vues;
     this.data = data;
+    this.isFavorite = isFavorite;
+  }
+
+  public Boolean getFavorite() {
+    return isFavorite;
+  }
+
+  public void setFavorite(Boolean favorite) {
+    isFavorite = favorite;
   }
 
   public Product() {
