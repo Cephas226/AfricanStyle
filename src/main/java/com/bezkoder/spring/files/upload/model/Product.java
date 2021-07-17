@@ -12,17 +12,14 @@ public class Product {
   private String url;
   private Long note;
   private Long vues;
-  @Lob
-  private byte[] data;
   private Boolean isFavorite=false;
 
-  public Product(Long productId, String categorie, String url, Long note, Long vues, byte[] data, Boolean isFavorite) {
+  public Product(Long productId, String categorie, String url, Long note, Long vues, Boolean isFavorite) {
     this.productId = productId;
     this.categorie = categorie;
     this.url = url;
     this.note = note;
     this.vues = vues;
-    this.data = data;
     this.isFavorite = isFavorite;
   }
 
@@ -69,13 +66,6 @@ public class Product {
     this.categorie = categorie;
   }
 
-  public byte[] getData() {
-    return data;
-  }
-
-  public void setData(byte[] data) {
-    this.data = data;
-  }
 
   public String getUrl() {
     return url;
@@ -92,7 +82,6 @@ public class Product {
             ", categorie='" + categorie + '\'' +
             ", note=" + note +
             ", vues=" + vues +
-            ", data=" + Arrays.toString(data) +
             '}';
   }
 }
